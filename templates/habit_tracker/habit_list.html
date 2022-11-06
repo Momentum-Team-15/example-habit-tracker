@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="section habit-list">
+  <h2 class="title is-size-2">Habits You're Building<h2>
+  <div class="habit-list tile is-ancestor is-vertical is-8 is-flex is-flex-wrap-wrap">
+    {% for habit in habits %}
+      <div class="tile is-parent">
+        <div class="tile is-child notification {{ bulma_classes|random }}">
+          <p class="habit-item subtitle"> {{habit.name}}</p>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+</section>
+<section class="section habit-form">
+  <h2 class="title is-size-3">Add a new habit to the list!</h2>
+  {% include 'habit_tracker/_habit_form.html'%}
+</section>
+{% endblock content %}
+
