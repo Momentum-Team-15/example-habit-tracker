@@ -1,6 +1,11 @@
 from django import forms
 from .models import Habit, DailyRecord
 
+
+class DatePickerInput(forms.DateInput):
+    input_type = "date"
+
+
 class HabitForm(forms.ModelForm):
     # https://docs.djangoproject.com/en/4.1/ref/forms/widgets/#styling-widget-instances
     def __init__(self, *args, **kwargs):
@@ -15,5 +20,19 @@ class HabitForm(forms.ModelForm):
         labels = {
             "name": "What habit do you want to build?",
             "metric": "What is your target number for daily reps of this habit?",
-            "unit_of_measure": "Unit of measure"
+            "unit_of_measure": "Unit of measure",
         }
+
+
+class DailyRecordForm(forms.ModelForm):
+    habit_pk = forms.IntegerField(widget=forms.HiddenInput(), required=False, label="")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["amount"].widget.attrs.update({"class": "input"})
+        self.fields["date"].widget.attrs.update({"class": "input"})
+
+    class Meta:
+        model = DailyRecord
+        fields = ("date", "amount", "habit_pk")
+        widgets = {"date": DatePickerInput()}

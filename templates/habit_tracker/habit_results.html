@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="block content mt-4">
+  <a href={% url 'habit_detail' habit_pk=habit.pk %} class="link is-info is-size-5"><ion-icon name="chevron-back-outline"></ion-icon> See all results for this habit</a>
+</div>
+<section class="section habit-results">
+  <h1 class="title is-size-1">Results for <span class="has-text-info">{{habit.name}}</span></h1>
+
+  <h3 class="title is-size-3">{{daily_record.date}}</h3>
+  {% if daily_record.amount %}
+    <section class="section habit-daily-record box">
+        <div class="daily-record block">
+            <p>Results: {{daily_record.amount}} {{habit.unit_of_measure }}</p>
+            <pM>Habit Target: {{habit.metric}} {{habit.unit_of_measure }} </pM
+        </div>
+        {% if daily_record.amount == habit.metric %}
+        <div class="box block has-background-success has-text-weight-bold">
+          You met your goal! 🎉
+        </div>
+          {% elif daily_record.amount > habit.metric %}
+          <div class="box block has-background-warning has-text-weight-bold mt-3">
+          You exceeded your goal! Way to go! 🎉🎉
+          <div>
+          {% endif %}
+    </section>
+{% endif %}
+  <section class='results-form'>
+    <h3 class="is-size-3 has-text-color-success">
+        {{ form_header_text }}
+    </h3>
+    <h4 class="is-size-4">Or choose a different day</h4>
+    {% include 'habit_tracker/_daily_record_form.html' with record_pk=daily_record.pk %}
+  <section>
+</section>
+
+{% endblock content %}
+

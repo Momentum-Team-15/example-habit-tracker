@@ -27,8 +27,8 @@ class Habit(BaseModel):
 
 class DailyRecord(BaseModel):
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE, related_name="records")
-    amount = models.PositiveIntegerField()
-    date = models.DateField(auto_now_add=True)
+    amount = models.PositiveIntegerField(default=0)
+    date = models.DateField()
 
     class Meta:
         constraints = [

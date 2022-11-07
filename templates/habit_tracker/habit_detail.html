@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="content panel mt-6">
+    <h1 class="title is-size-1 panel-heading">{{habit.name}}</h1>
+    <section class="section habit-detail  ">
+      {% for record in habit.records.all %}
+        <div class="panel-block">{{record.date}} {{record.amount}} {{habit.unit_of_measure}}</div>
+      {% empty %}
+        <div class="is-size-4 has-text-info has-text-weight-bold panel-block">No daily records yet!</div>
+      {% endfor %}
+    </section>
+    <div class="block section">
+      <a href={% url 'habit_records' habit_pk=habit.pk %} class="button is-link">Record results for this habit</a>
+    </div>
+</div>
+{% endblock content %}

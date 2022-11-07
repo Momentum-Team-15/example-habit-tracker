@@ -7,7 +7,7 @@
     {% for habit in habits %}
       <div class="tile is-parent">
         <div class="tile is-child notification {{ bulma_classes|random }}">
-          <p class="habit-item subtitle"> {{habit.name}}</p>
+          <p class="habit-item subtitle"><a href={% url 'habit_detail' habit_pk=habit.pk %}>{{habit.name}}</a></p>
         </div>
       </div>
     {% endfor %}
