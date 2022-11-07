@@ -26,10 +26,15 @@
     </section>
 {% endif %}
   <section class='results-form'>
-    <h3 class="is-size-3 has-text-color-success">
+    {% if error_msg %}
+    <div class="error notification is-danger">
+      {{error_msg}}
+    </div>
+    {% endif %}
+    <h3 class="is-size-4">
         {{ form_header_text }}
     </h3>
-    <h4 class="is-size-4">Or choose a different day</h4>
+    <h4 class="is-size-5">Or choose a different day</h4>
     {% include 'habit_tracker/_daily_record_form.html' with record_pk=daily_record.pk %}
   <section>
 </section>

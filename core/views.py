@@ -64,14 +64,14 @@ def habit_daily_record(request, habit_pk=None, year=None, month=None, day=None):
 
     if request.method == 'POST':
       form = forms.DailyRecordForm(data=request.POST, instance=daily_record)
-      form_header_text = "You've already recorded results today. Update them?"
+      form_header_text = "You've already recorded results today. Update your results?"
       if form.is_valid():
           daily_record = form.save(commit=False)
           daily_record.habit = habit
           try:
             daily_record.save()
           except IntegrityError:
-            error_msg="A record already exists for this date"
+            view_context['error_msg'] ="A record already exists for this date"
     else:
       form = forms.DailyRecordForm(
             initial={"date": daily_record.date, "habit_pk": habit.pk, "amount": daily_record.amount}
