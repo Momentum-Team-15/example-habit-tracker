@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from core import views
+from api import views as api_views
 
 urlpatterns = [
     path("", views.habit_list, name="habit_list"),
@@ -32,6 +33,8 @@ urlpatterns = [
         views.habit_daily_record,
         name="habit_daily_record",
     ),
+    path('api-auth/', include('rest_framework.urls')),
     path("admin/", admin.site.urls),
     path("auth/", include("registration.backends.simple.urls")),
+    path("api/habits/", api_views.HabitListView.as_view(), name="api-habit-list"),
 ]

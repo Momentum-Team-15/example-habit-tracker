@@ -13,10 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import environ
 
-env = environ.Env(
-    DEBUG=(bool, False),
-    RENDER=(bool, False)
-)
+env = environ.Env(DEBUG=(bool, False), RENDER=(bool, False))
 environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -35,9 +32,9 @@ ALLOWED_HOSTS = []
 
 if env("RENDER"):
     ALLOWED_HOSTS.append(env("RENDER_EXTERNAL_HOSTNAME"))
-    DJANGO_SUPERUSER_USERNAME=env("DJANGO_SUPERUSER_USERNAME")
-    DJANGO_SUPERUSER_PASSWORD=env("DJANGO_SUPERUSER_PASSWORD")
-    DJANGO_SUPERUSER_EMAIL=env("DJANGO_SUPERUSER_EMAIL")
+    DJANGO_SUPERUSER_USERNAME = env("DJANGO_SUPERUSER_USERNAME")
+    DJANGO_SUPERUSER_PASSWORD = env("DJANGO_SUPERUSER_PASSWORD")
+    DJANGO_SUPERUSER_EMAIL = env("DJANGO_SUPERUSER_EMAIL")
 
 # Application definition
 
@@ -51,12 +48,14 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "registration",
-    "core"
+    "rest_framework",
+    "core",
+    "api",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -99,9 +98,7 @@ WSGI_APPLICATION = "habit_tracker.wsgi.application"
 #     }
 # }
 
-DATABASES = {
-  "default" : env.db()
-}
+DATABASES = {"default": env.db()}
 
 
 # Password validation
@@ -142,7 +139,7 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-STATIC_ROOT = BASE_DIR / "staticfiles" # <-- add this
+STATIC_ROOT = BASE_DIR / "staticfiles"  # <-- add this
 
 # add the following lines
 if not DEBUG:
@@ -158,5 +155,12 @@ AUTH_USER_MODEL = "core.User"
 # for django-registration-redux
 ACCOUNT_ACTIVATION_DAYS = 7
 
-LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = '/auth/login'
+LOGIN_REDIRECT_URL = "/"
+LOGIN_URL = "/auth/login"
+
+# For DRF
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly'
+    ]
+}
