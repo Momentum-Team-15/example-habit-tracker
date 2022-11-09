@@ -1,17 +1,19 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import permissions
 from rest_framework import status
 from core.models import Habit
 from .serializers import HabitSerializer
 
 class HabitListView(APIView):
+  permission_classes = [permissions.IsAuthenticated]
 
   def get(self, request, format=None):
         """
-        Return a list of all habits.
+        Return a list of all habits for a logged in user.
         """
         # query for all the habits
-        habits = Habit.objects.all()
+        habits = request.user.habits.all()
         # serialize the data so that I can return habits as json
         serializer = HabitSerializer(habits, many=True)
         return Response(serializer.data)
