@@ -15,8 +15,3 @@ class HabitListView(APIView):
         return Response(serializer.data)
 
 
-def habit_list(request):
-  # get the habits
-  habits = Habit.objects.all()
-  # return the response
-  return render(request, "path-to-template", {"habits": habits})
